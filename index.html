@@ -79,7 +79,11 @@
   /* ---------- HERO ---------- */
   .hero{
     position:relative;
-    background:radial-gradient(120% 140% at 15% 0%, #2a2a2a 0%, #161616 45%, #0d0d0d 100%);
+    background:
+      radial-gradient(120% 140% at 15% 0%, rgba(42,42,42,.88) 0%, rgba(22,22,22,.93) 45%, rgba(13,13,13,.96) 100%),
+      url('assets/img/site-rangee-containers.jpg');
+    background-size:cover;
+    background-position:center 65%;
     color:#fff;
     padding:96px 0 120px;
     overflow:hidden;
@@ -146,20 +150,56 @@
   /* ---------- SPECS ---------- */
   .specs-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center;}
   .box-diagram{
-    background:var(--paper);border-radius:28px;padding:40px;position:relative;
+    background:var(--paper);border-radius:28px;position:relative;overflow:hidden;
     display:flex;align-items:center;justify-content:center;min-height:340px;
   }
-  .cube{position:relative;width:200px;height:150px;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(-32deg);}
-  .cube .face{position:absolute;border:2px solid var(--orange);background:rgba(239,120,28,.12);}
-  .cube .front{width:200px;height:150px;transform:translateZ(60px);}
-  .cube .back{width:200px;height:150px;transform:translateZ(-60px);}
-  .cube .right{width:120px;height:150px;transform:rotateY(90deg) translateZ(100px);left:0;}
-  .cube .left{width:120px;height:150px;transform:rotateY(90deg) translateZ(-100px);left:0;}
-  .cube .top{width:200px;height:120px;transform:rotateX(90deg) translateZ(-60px);top:-30px;}
-  .dim-label{position:absolute;font-size:.72rem;font-weight:700;color:var(--ink-soft);background:#fff;padding:3px 8px;border-radius:6px;border:1px solid var(--line);}
-  .dim-l{bottom:34px;left:50%;transform:translateX(-50%);}
-  .dim-w{top:50%;right:34px;}
-  .dim-h{top:34px;left:34px;}
+  /* Matches the source photo's own ratio so object-fit:cover never crops it —
+     the whole container is visible instead of just a zoomed-in slice. */
+  .box-diagram.is-portrait{aspect-ratio:398/532;min-height:0;}
+  .box-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .box-diagram::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top, rgba(0,0,0,.35), transparent 45%);
+  }
+
+  .dim-label{
+    position:absolute;z-index:2;display:flex;align-items:center;gap:8px;
+    font-size:.76rem;font-weight:700;letter-spacing:.02em;color:#fff;
+    background:rgba(15,15,15,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 10px 24px -10px rgba(0,0,0,.6);
+  }
+  .dim-label::before{
+    content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0;
+    animation:pulse-dot 2s ease-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%{box-shadow:0 0 0 0 rgba(239,120,28,.55);}
+    70%{box-shadow:0 0 0 9px rgba(239,120,28,0);}
+    100%{box-shadow:0 0 0 0 rgba(239,120,28,0);}
+  }
+  .dim-width{bottom:24px;left:50%;transform:translateX(-50%);}
+  .dim-length{top:50%;right:20px;transform:translateY(-50%);}
+  .dim-height{top:20px;left:20px;}
+
+  /* Dimension arrows overlaid on the photo, tracing the actual edges they measure */
+  .dim-arrows{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+  .dim-arrows line{stroke:#fff;stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7));}
+  .dim-arrows .arrow-width,.dim-arrows .arrow-length{stroke:#ffb15c;}
+  .js .dim-arrows line{opacity:0;transition:opacity .4s ease;}
+  .js .box-diagram.in .dim-arrows .arrow-height{opacity:1;transition-delay:.15s;}
+  .js .box-diagram.in .dim-arrows .arrow-width{opacity:1;transition-delay:.35s;}
+  .js .box-diagram.in .dim-arrows .arrow-length{opacity:1;transition-delay:.55s;}
+
+  /* Labels cascade in just after their arrow, once JS has proven it can run */
+  .js .box-diagram .dim-label{opacity:0;transition:opacity .5s ease,transform .5s ease;}
+  .js .box-diagram.in .dim-label{opacity:1;}
+  .js .box-diagram .dim-width{transform:translateX(-50%) translateY(10px);}
+  .js .box-diagram.in .dim-width{transition-delay:.55s;transform:translateX(-50%);}
+  .js .box-diagram .dim-length{transform:translateY(-50%) translateY(10px);}
+  .js .box-diagram.in .dim-length{transition-delay:.75s;transform:translateY(-50%);}
+  .js .box-diagram .dim-height{transform:translateY(10px);}
+  .js .box-diagram.in .dim-height{transition-delay:.35s;transform:none;}
 
   .spec-list{display:flex;flex-direction:column;gap:0;}
   .spec-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);}
@@ -410,17 +450,24 @@
 
 <section id="specs">
   <div class="wrap specs-inner">
-    <div class="box-diagram reveal">
-      <div class="cube">
-        <div class="face front"></div>
-        <div class="face back"></div>
-        <div class="face right"></div>
-        <div class="face left"></div>
-        <div class="face top"></div>
-      </div>
-      <span class="dim-label dim-l">Longueur 6058 mm</span>
-      <span class="dim-label dim-w">Largeur 2438 mm</span>
-      <span class="dim-label dim-h">Hauteur 2591 mm</span>
+    <div class="box-diagram is-portrait reveal">
+      <img class="box-photo" src="assets/img/box-interieur.jpg" alt="Intérieur d'un box de stockage Leuze Stockage" loading="lazy">
+      <svg class="dim-arrows" viewBox="0 0 398 532" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <marker id="ah-white" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#fff"></path>
+          </marker>
+          <marker id="ah-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#ffb15c"></path>
+          </marker>
+        </defs>
+        <line class="arrow-height" x1="20" y1="68" x2="20" y2="462" marker-start="url(#ah-white)" marker-end="url(#ah-white)"></line>
+        <line class="arrow-width" x1="30" y1="490" x2="366" y2="490" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)"></line>
+        <line class="arrow-length" x1="352" y1="458" x2="216" y2="242" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)"></line>
+      </svg>
+      <span class="dim-label dim-height">Hauteur 2591 mm</span>
+      <span class="dim-label dim-width">Largeur 2438 mm</span>
+      <span class="dim-label dim-length">Longueur 6058 mm</span>
     </div>
     <div class="reveal">
       <div class="eyebrow">Le box en détail</div>
@@ -494,7 +541,7 @@
     </div>
     <div class="reveal" style="display:flex;align-items:center;justify-content:center;">
       <div class="box-diagram" style="width:100%;">
-        <img src="assets/img/logo-surveillance-camera_lwsoptimized.webp" alt="Vidéosurveillance 24h/24 des box de stockage" style="max-width:240px;">
+        <img class="box-photo" src="assets/img/box-exterieur-signaletique.jpg" alt="Container Leuze Stockage avec signalétique de sécurité et de règlement" loading="lazy">
       </div>
     </div>
   </div>
