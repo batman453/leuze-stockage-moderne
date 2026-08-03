@@ -79,7 +79,11 @@
   /* ---------- HERO ---------- */
   .hero{
     position:relative;
-    background:radial-gradient(120% 140% at 15% 0%, #2a2a2a 0%, #161616 45%, #0d0d0d 100%);
+    background:
+      radial-gradient(120% 140% at 15% 0%, rgba(42,42,42,.88) 0%, rgba(22,22,22,.93) 45%, rgba(13,13,13,.96) 100%),
+      url('assets/img/site-rangee-containers.jpg');
+    background-size:cover;
+    background-position:center 65%;
     color:#fff;
     padding:96px 0 120px;
     overflow:hidden;
@@ -146,16 +150,10 @@
   /* ---------- SPECS ---------- */
   .specs-inner{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center;}
   .box-diagram{
-    background:var(--paper);border-radius:28px;padding:40px;position:relative;
+    background:var(--paper);border-radius:28px;position:relative;overflow:hidden;
     display:flex;align-items:center;justify-content:center;min-height:340px;
   }
-  .cube{position:relative;width:200px;height:150px;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(-32deg);}
-  .cube .face{position:absolute;border:2px solid var(--orange);background:rgba(239,120,28,.12);}
-  .cube .front{width:200px;height:150px;transform:translateZ(60px);}
-  .cube .back{width:200px;height:150px;transform:translateZ(-60px);}
-  .cube .right{width:120px;height:150px;transform:rotateY(90deg) translateZ(100px);left:0;}
-  .cube .left{width:120px;height:150px;transform:rotateY(90deg) translateZ(-100px);left:0;}
-  .cube .top{width:200px;height:120px;transform:rotateX(90deg) translateZ(-60px);top:-30px;}
+  .box-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
   .dim-label{position:absolute;font-size:.72rem;font-weight:700;color:var(--ink-soft);background:#fff;padding:3px 8px;border-radius:6px;border:1px solid var(--line);}
   .dim-l{bottom:34px;left:50%;transform:translateX(-50%);}
   .dim-w{top:50%;right:34px;}
@@ -411,13 +409,7 @@
 <section id="specs">
   <div class="wrap specs-inner">
     <div class="box-diagram reveal">
-      <div class="cube">
-        <div class="face front"></div>
-        <div class="face back"></div>
-        <div class="face right"></div>
-        <div class="face left"></div>
-        <div class="face top"></div>
-      </div>
+      <img class="box-photo" src="assets/img/box-interieur.jpg" alt="Intérieur d'un box de stockage Leuze Stockage" loading="lazy">
       <span class="dim-label dim-l">Longueur 6058 mm</span>
       <span class="dim-label dim-w">Largeur 2438 mm</span>
       <span class="dim-label dim-h">Hauteur 2591 mm</span>
@@ -494,7 +486,7 @@
     </div>
     <div class="reveal" style="display:flex;align-items:center;justify-content:center;">
       <div class="box-diagram" style="width:100%;">
-        <img src="assets/img/logo-surveillance-camera_lwsoptimized.webp" alt="Vidéosurveillance 24h/24 des box de stockage" style="max-width:240px;">
+        <img class="box-photo" src="assets/img/box-exterieur-signaletique.jpg" alt="Container Leuze Stockage avec signalétique de sécurité et de règlement" loading="lazy">
       </div>
     </div>
   </div>
