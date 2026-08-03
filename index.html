@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Leuze Stockage — Box de stockage à louer à Leuze-en-Hainaut</title>
 <meta name="description" content="Location de box de stockage sécurisé 30 m³ à Leuze-en-Hainaut. À partir de 121€/mois, accessible 24h/24. Réservez en 2 minutes.">
+<script>document.documentElement.classList.add('js');</script>
 <style>
   :root{
     --orange:#ef781c;
@@ -235,7 +236,10 @@
   .mobile-bar .btn{flex:1;padding:13px;}
 
   /* ---------- REVEAL ---------- */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease;}
+  /* Hidden-until-revealed only applies once JS has proven it can run (see .js class below).
+     Without JS (blocked script, no-js browser), content stays visible by default. */
+  .reveal{transition:opacity .6s ease,transform .6s ease;}
+  .js .reveal{opacity:0;transform:translateY(24px);}
   .reveal.in{opacity:1;transform:none;}
 
   /* ---------- RESPONSIVE ---------- */
@@ -536,21 +540,27 @@
 </div>
 
 <script>
-  const nav = document.getElementById('siteNav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 10);
-  });
+  try {
+    const nav = document.getElementById('siteNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  } catch (e) { console.error(e); }
 
-  const burger = document.getElementById('burgerBtn');
-  burger.addEventListener('click', () => {
-    document.querySelector('.nav-links').style.display =
-      document.querySelector('.nav-links').style.display === 'flex' ? 'none' : 'flex';
-  });
+  try {
+    const burger = document.getElementById('burgerBtn');
+    burger.addEventListener('click', () => {
+      const links = document.querySelector('.nav-links');
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    });
+  } catch (e) { console.error(e); }
 
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
-  }, { threshold: .15 });
-  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  try {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } catch (e) { console.error(e); }
 </script>
 
 </body>
