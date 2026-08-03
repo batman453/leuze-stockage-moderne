@@ -163,7 +163,7 @@
   }
 
   .dim-label{
-    position:absolute;z-index:1;display:flex;align-items:center;gap:8px;
+    position:absolute;z-index:2;display:flex;align-items:center;gap:8px;
     font-size:.76rem;font-weight:700;letter-spacing:.02em;color:#fff;
     background:rgba(15,15,15,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
     padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);
@@ -178,18 +178,28 @@
     70%{box-shadow:0 0 0 9px rgba(239,120,28,0);}
     100%{box-shadow:0 0 0 0 rgba(239,120,28,0);}
   }
-  .dim-l{bottom:24px;left:50%;transform:translateX(-50%);}
-  .dim-w{top:50%;right:20px;transform:translateY(-50%);}
-  .dim-h{top:20px;left:20px;}
+  .dim-width{bottom:24px;left:50%;transform:translateX(-50%);}
+  .dim-length{top:50%;right:20px;transform:translateY(-50%);}
+  .dim-height{top:20px;left:20px;}
 
-  /* Labels cascade in just after the photo itself, once JS has proven it can run */
-  .js .box-diagram .dim-label{opacity:0;transform:translateY(10px) translateX(0);transition:opacity .5s ease,transform .5s ease;}
+  /* Dimension arrows overlaid on the photo, tracing the actual edges they measure */
+  .dim-arrows{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none;}
+  .dim-arrows line{stroke:#fff;stroke-width:2.5;stroke-linecap:round;filter:drop-shadow(0 1px 3px rgba(0,0,0,.7));}
+  .dim-arrows .arrow-width,.dim-arrows .arrow-length{stroke:#ffb15c;}
+  .js .dim-arrows line{opacity:0;transition:opacity .4s ease;}
+  .js .box-diagram.in .dim-arrows .arrow-height{opacity:1;transition-delay:.15s;}
+  .js .box-diagram.in .dim-arrows .arrow-width{opacity:1;transition-delay:.35s;}
+  .js .box-diagram.in .dim-arrows .arrow-length{opacity:1;transition-delay:.55s;}
+
+  /* Labels cascade in just after their arrow, once JS has proven it can run */
+  .js .box-diagram .dim-label{opacity:0;transition:opacity .5s ease,transform .5s ease;}
   .js .box-diagram.in .dim-label{opacity:1;}
-  .js .box-diagram.in .dim-l{transition:opacity .5s ease .45s,transform .5s ease .45s;transform:translateX(-50%);}
-  .js .box-diagram.in .dim-w{transition:opacity .5s ease .6s,transform .5s ease .6s;transform:translateY(-50%);}
-  .js .box-diagram.in .dim-h{transition:opacity .5s ease .75s,transform .5s ease .75s;transform:none;}
-  .js .box-diagram .dim-l{transform:translateX(-50%) translateY(10px);}
-  .js .box-diagram .dim-w{transform:translateY(-50%) translateY(10px);}
+  .js .box-diagram .dim-width{transform:translateX(-50%) translateY(10px);}
+  .js .box-diagram.in .dim-width{transition-delay:.55s;transform:translateX(-50%);}
+  .js .box-diagram .dim-length{transform:translateY(-50%) translateY(10px);}
+  .js .box-diagram.in .dim-length{transition-delay:.75s;transform:translateY(-50%);}
+  .js .box-diagram .dim-height{transform:translateY(10px);}
+  .js .box-diagram.in .dim-height{transition-delay:.35s;transform:none;}
 
   .spec-list{display:flex;flex-direction:column;gap:0;}
   .spec-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);}
@@ -442,9 +452,22 @@
   <div class="wrap specs-inner">
     <div class="box-diagram is-portrait reveal">
       <img class="box-photo" src="assets/img/box-interieur.jpg" alt="Intérieur d'un box de stockage Leuze Stockage" loading="lazy">
-      <span class="dim-label dim-l">Longueur 6058 mm</span>
-      <span class="dim-label dim-w">Largeur 2438 mm</span>
-      <span class="dim-label dim-h">Hauteur 2591 mm</span>
+      <svg class="dim-arrows" viewBox="0 0 398 532" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <marker id="ah-white" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#fff"></path>
+          </marker>
+          <marker id="ah-orange" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="#ffb15c"></path>
+          </marker>
+        </defs>
+        <line class="arrow-height" x1="20" y1="68" x2="20" y2="462" marker-start="url(#ah-white)" marker-end="url(#ah-white)"></line>
+        <line class="arrow-width" x1="30" y1="490" x2="366" y2="490" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)"></line>
+        <line class="arrow-length" x1="352" y1="458" x2="216" y2="242" marker-start="url(#ah-orange)" marker-end="url(#ah-orange)"></line>
+      </svg>
+      <span class="dim-label dim-height">Hauteur 2591 mm</span>
+      <span class="dim-label dim-width">Largeur 2438 mm</span>
+      <span class="dim-label dim-length">Longueur 6058 mm</span>
     </div>
     <div class="reveal">
       <div class="eyebrow">Le box en détail</div>
