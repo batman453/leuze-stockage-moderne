@@ -153,11 +153,43 @@
     background:var(--paper);border-radius:28px;position:relative;overflow:hidden;
     display:flex;align-items:center;justify-content:center;min-height:340px;
   }
+  /* Matches the source photo's own ratio so object-fit:cover never crops it —
+     the whole container is visible instead of just a zoomed-in slice. */
+  .box-diagram.is-portrait{aspect-ratio:398/532;min-height:0;}
   .box-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
-  .dim-label{position:absolute;font-size:.72rem;font-weight:700;color:var(--ink-soft);background:#fff;padding:3px 8px;border-radius:6px;border:1px solid var(--line);}
-  .dim-l{bottom:34px;left:50%;transform:translateX(-50%);}
-  .dim-w{top:50%;right:34px;}
-  .dim-h{top:34px;left:34px;}
+  .box-diagram::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(to top, rgba(0,0,0,.35), transparent 45%);
+  }
+
+  .dim-label{
+    position:absolute;z-index:1;display:flex;align-items:center;gap:8px;
+    font-size:.76rem;font-weight:700;letter-spacing:.02em;color:#fff;
+    background:rgba(15,15,15,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    padding:9px 16px;border-radius:999px;border:1px solid rgba(255,255,255,.16);
+    box-shadow:0 10px 24px -10px rgba(0,0,0,.6);
+  }
+  .dim-label::before{
+    content:"";width:7px;height:7px;border-radius:50%;background:var(--orange);flex-shrink:0;
+    animation:pulse-dot 2s ease-out infinite;
+  }
+  @keyframes pulse-dot{
+    0%{box-shadow:0 0 0 0 rgba(239,120,28,.55);}
+    70%{box-shadow:0 0 0 9px rgba(239,120,28,0);}
+    100%{box-shadow:0 0 0 0 rgba(239,120,28,0);}
+  }
+  .dim-l{bottom:24px;left:50%;transform:translateX(-50%);}
+  .dim-w{top:50%;right:20px;transform:translateY(-50%);}
+  .dim-h{top:20px;left:20px;}
+
+  /* Labels cascade in just after the photo itself, once JS has proven it can run */
+  .js .box-diagram .dim-label{opacity:0;transform:translateY(10px) translateX(0);transition:opacity .5s ease,transform .5s ease;}
+  .js .box-diagram.in .dim-label{opacity:1;}
+  .js .box-diagram.in .dim-l{transition:opacity .5s ease .45s,transform .5s ease .45s;transform:translateX(-50%);}
+  .js .box-diagram.in .dim-w{transition:opacity .5s ease .6s,transform .5s ease .6s;transform:translateY(-50%);}
+  .js .box-diagram.in .dim-h{transition:opacity .5s ease .75s,transform .5s ease .75s;transform:none;}
+  .js .box-diagram .dim-l{transform:translateX(-50%) translateY(10px);}
+  .js .box-diagram .dim-w{transform:translateY(-50%) translateY(10px);}
 
   .spec-list{display:flex;flex-direction:column;gap:0;}
   .spec-row{display:flex;justify-content:space-between;align-items:center;padding:18px 0;border-bottom:1px solid var(--line);}
@@ -408,7 +440,7 @@
 
 <section id="specs">
   <div class="wrap specs-inner">
-    <div class="box-diagram reveal">
+    <div class="box-diagram is-portrait reveal">
       <img class="box-photo" src="assets/img/box-interieur.jpg" alt="Intérieur d'un box de stockage Leuze Stockage" loading="lazy">
       <span class="dim-label dim-l">Longueur 6058 mm</span>
       <span class="dim-label dim-w">Largeur 2438 mm</span>
