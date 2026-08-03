@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prendre rendez-vous — Leuze Stockage</title>
+<meta name="description" content="Réservez votre visite d'un box de stockage à Leuze-en-Hainaut. Réponse rapide, sans engagement, sur rendez-vous les mardis, jeudis et vendredis.">
+<script>document.documentElement.classList.add('js');</script>
+<style>
+  :root{
+    --orange:#ef781c;
+    --orange-dark:#d4660f;
+    --ink:#161616;
+    --ink-soft:#333333;
+    --paper:#f7f6f4;
+    --white:#ffffff;
+    --line:#e7e3dd;
+    --radius:20px;
+    --shadow:0 20px 50px -20px rgba(0,0,0,.25);
+    --maxw:1180px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink);
+    background:var(--white);
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  img{max-width:100%;display:block;}
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+    color:var(--orange);
+    margin:0 0 14px;
+  }
+  .eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--orange);}
+  h1,h2,h3{line-height:1.08;margin:0;font-weight:800;letter-spacing:-.02em;}
+  h2{font-size:clamp(1.8rem,3.6vw,2.6rem);}
+  p{line-height:1.6;color:var(--ink-soft);margin:0;}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    padding:15px 28px;border-radius:999px;font-weight:700;font-size:.98rem;
+    cursor:pointer;border:2px solid transparent;transition:transform .15s ease,box-shadow .15s ease,background .15s ease;
+    white-space:nowrap;
+  }
+  .btn:active{transform:scale(.97);}
+  .btn-primary{background:var(--orange);color:#fff;box-shadow:0 12px 24px -8px rgba(239,120,28,.6);}
+  .btn-primary:hover{background:var(--orange-dark);box-shadow:0 16px 30px -8px rgba(239,120,28,.7);}
+  .btn-ghost{background:transparent;border-color:rgba(255,255,255,.35);color:#fff;}
+  .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08);}
+  .btn-dark{background:var(--ink);color:#fff;}
+  .btn-dark:hover{background:#000;}
+
+  /* ---------- NAV ---------- */
+  header.nav{
+    position:sticky;top:0;z-index:50;
+    background:rgba(255,255,255,.85);backdrop-filter:blur(10px);
+    border-bottom:1px solid transparent;
+    transition:border-color .2s ease, box-shadow .2s ease;
+  }
+  header.nav.scrolled{border-color:var(--line);box-shadow:0 4px 20px -12px rgba(0,0,0,.15);}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 24px;max-width:var(--maxw);margin:0 auto;}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;letter-spacing:-.02em;}
+  .logo-mark{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--orange),#ffb15c);display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;flex-shrink:0;}
+  .nav-links{display:flex;gap:32px;font-weight:600;font-size:.95rem;}
+  .nav-links a{opacity:.75;transition:opacity .15s;}
+  .nav-links a:hover{opacity:1;}
+  .nav-cta{display:flex;align-items:center;gap:14px;}
+  .nav-phone{font-weight:700;font-size:.9rem;display:flex;align-items:center;gap:6px;}
+  .burger{display:none;background:none;border:none;cursor:pointer;padding:6px;}
+  .burger span{display:block;width:22px;height:2px;background:var(--ink);margin:5px 0;border-radius:2px;}
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{padding:88px 0;}
+
+  /* ---------- PAGE HERO ---------- */
+  .page-hero{
+    position:relative;color:#fff;padding:80px 0 96px;overflow:hidden;
+    background:
+      linear-gradient(180deg, rgba(10,10,10,.82) 0%, rgba(10,10,10,.9) 100%),
+      url('assets/img/box-exterieur-signaletique.jpg');
+    background-size:cover;background-position:center;
+  }
+  .page-hero::before{
+    content:"";position:absolute;inset:-20% -10% auto auto;width:480px;height:480px;
+    background:radial-gradient(circle,rgba(239,120,28,.45),transparent 65%);
+    filter:blur(10px);
+  }
+  .page-hero .wrap{position:relative;z-index:1;max-width:720px;text-align:center;margin:0 auto;}
+  .page-hero .eyebrow{justify-content:center;}
+  .page-hero h1{font-size:clamp(2.3rem,4.8vw,3.3rem);}
+  .page-hero p.lead{color:rgba(255,255,255,.75);font-size:1.08rem;margin:18px auto 0;max-width:560px;}
+  .page-hero .hero-actions{justify-content:center;margin-top:32px;}
+  .trust-row{display:flex;justify-content:center;gap:30px;flex-wrap:wrap;margin-top:40px;}
+  .trust-item{display:flex;align-items:center;gap:9px;font-size:.88rem;font-weight:600;color:rgba(255,255,255,.85);}
+  .trust-item svg{color:var(--orange);flex-shrink:0;}
+
+  /* ---------- BOOKING LAYOUT ---------- */
+  .booking-inner{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start;}
+  .booking-photo{
+    border-radius:28px;overflow:hidden;position:relative;min-height:420px;
+    display:flex;align-items:flex-end;
+  }
+  .booking-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+  .booking-photo::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 55%);}
+  .booking-photo .caption{position:relative;z-index:1;padding:28px;color:#fff;}
+  .booking-photo .caption b{display:block;font-size:1.15rem;margin-bottom:6px;}
+  .booking-photo .caption span{font-size:.88rem;color:rgba(255,255,255,.75);}
+
+  .info-list{list-style:none;margin:28px 0 0;padding:0;display:flex;flex-direction:column;gap:16px;}
+  .info-list li{display:flex;gap:14px;align-items:flex-start;}
+  .info-list .iicon{width:40px;height:40px;border-radius:12px;background:#fdece0;color:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+  .info-list b{display:block;font-size:.95rem;}
+  .info-list span{font-size:.85rem;}
+
+  /* ---------- FORM ---------- */
+  .form-card{background:var(--paper);border:1px solid var(--line);border-radius:28px;padding:40px;}
+  .form-card h2{font-size:1.5rem;}
+  .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:26px;}
+  .field{display:flex;flex-direction:column;gap:8px;}
+  .field.full{grid-column:1 / -1;}
+  .field label{font-size:.85rem;font-weight:700;color:var(--ink);}
+  .field .hint{font-size:.76rem;color:#8a8a8a;font-weight:500;}
+  .field input,.field select,.field textarea{
+    font:inherit;padding:13px 16px;border-radius:12px;border:1.5px solid var(--line);
+    background:#fff;color:var(--ink);transition:border-color .15s ease,box-shadow .15s ease;width:100%;
+  }
+  .field textarea{resize:vertical;min-height:100px;font-family:inherit;}
+  .field input:focus,.field select:focus,.field textarea:focus{
+    outline:none;border-color:var(--orange);box-shadow:0 0 0 4px rgba(239,120,28,.15);
+  }
+  .form-submit{display:flex;align-items:center;gap:16px;margin-top:22px;flex-wrap:wrap;}
+  .form-note{font-size:.78rem;color:#8a8a8a;}
+  .form-success{
+    display:none;align-items:center;gap:10px;background:#e9f9ee;color:#1c7a3d;
+    border:1px solid #bfe9cd;border-radius:12px;padding:14px 18px;font-size:.88rem;font-weight:600;margin-top:18px;
+  }
+  .form-success.show{display:flex;}
+  .form-success svg{flex-shrink:0;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:70px 0 30px;}
+  .footer-grid{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:40px;padding-bottom:40px;border-bottom:1px solid var(--line);}
+  footer h4{font-size:.95rem;margin-bottom:18px;}
+  .footer-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:12px;}
+  .footer-list a,.footer-list span{display:flex;align-items:center;gap:10px;font-size:.92rem;color:var(--ink-soft);}
+  .footer-list svg{color:var(--orange);flex-shrink:0;}
+  .socials{display:flex;gap:10px;margin-top:18px;}
+  .social-btn{width:38px;height:38px;border-radius:50%;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;transition:background .15s;}
+  .social-btn:hover{background:var(--orange);color:#fff;}
+  .map-embed{border-radius:16px;overflow:hidden;border:1px solid var(--line);height:220px;}
+  .map-embed iframe{width:100%;height:100%;border:0;}
+  .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:26px;font-size:.82rem;color:#8a8a8a;flex-wrap:wrap;gap:10px;}
+
+  /* ---------- MOBILE STICKY BAR ---------- */
+  .mobile-bar{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;
+    background:#fff;border-top:1px solid var(--line);padding:12px 16px;
+    box-shadow:0 -10px 30px -10px rgba(0,0,0,.2);
+    gap:10px;
+  }
+  .mobile-bar .btn{flex:1;padding:13px;}
+
+  /* ---------- REVEAL ---------- */
+  .reveal{transition:opacity .7s cubic-bezier(.16,1,.3,1),transform .7s cubic-bezier(.16,1,.3,1);}
+  .js .reveal{opacity:0;transform:translateY(32px) scale(.97);}
+  .reveal.in{opacity:1;transform:none;}
+
+  /* ---------- SCROLL PROGRESS BAR ---------- */
+  .scroll-progress{position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,var(--orange),#ffb15c);z-index:100;transition:width .1s linear;}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:980px){
+    .nav-links{display:none;}
+    .burger{display:block;}
+    .booking-inner{grid-template-columns:1fr;}
+    .booking-photo{min-height:280px;}
+    .footer-grid{grid-template-columns:1fr 1fr;}
+    .footer-grid .col-map{grid-column:span 2;}
+  }
+  @media (max-width:640px){
+    section{padding:56px 0;}
+    .page-hero{padding:56px 0 72px;}
+    .trust-row{gap:16px 22px;}
+    .form-card{padding:26px;}
+    .form-grid{grid-template-columns:1fr;}
+    .footer-grid{grid-template-columns:1fr;}
+    .footer-grid .col-map{grid-column:span 1;}
+    .nav-phone{display:none;}
+    .nav-inner{padding:14px 16px;gap:10px;}
+    .logo{font-size:.95rem;white-space:nowrap;}
+    .logo-mark{width:30px;height:30px;font-size:.9rem;}
+    .nav-cta .btn{padding:11px 18px;font-size:.88rem;}
+    .mobile-bar{display:flex;}
+    body{padding-bottom:74px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="scrollProgress"></div>
+
+<header class="nav" id="siteNav">
+  <div class="nav-inner">
+    <a class="logo" href="index.html"><span class="logo-mark">LS</span> Leuze Stockage</a>
+    <nav class="nav-links">
+      <a href="index.html#solutions">Solutions</a>
+      <a href="index.html#specs">Le box</a>
+      <a href="index.html#comment">Comment ça marche</a>
+      <a href="index.html#parking">Parking</a>
+      <a href="index.html#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a class="nav-phone" href="tel:+3269825220">
+        <svg width="16" height="16" viewBox="0 0 512 512" fill="currentColor"><path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"/></svg>
+        069 82 52 20
+      </a>
+      <a class="btn btn-primary" href="#form">Prendre rendez-vous</a>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <div class="eyebrow">Visite sur rendez-vous</div>
+    <h1>Venez voir votre futur box</h1>
+    <p class="lead">Une visite rapide, sans engagement, pour choisir sereinement. Remplissez le formulaire ci-dessous ou appelez-nous directement — on s'occupe du reste.</p>
+    <div class="hero-actions">
+      <a class="btn btn-primary" href="#form">Remplir le formulaire</a>
+      <a class="btn btn-ghost" href="tel:+3269825220">Appeler maintenant</a>
+    </div>
+    <div class="trust-row">
+      <div class="trust-item"><svg width="16" height="16" viewBox="0 0 512 512" fill="currentColor"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg> Visite gratuite</div>
+      <div class="trust-item"><svg width="16" height="16" viewBox="0 0 512 512" fill="currentColor"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg> Réponse sous 24h</div>
+      <div class="trust-item"><svg width="16" height="16" viewBox="0 0 512 512" fill="currentColor"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"/></svg> Sans engagement</div>
+    </div>
+  </div>
+</section>
+
+<section id="form">
+  <div class="wrap booking-inner">
+    <div class="reveal">
+      <div class="booking-photo">
+        <img src="assets/img/site-rangee-containers.jpg" alt="Site de box de stockage Leuze Stockage" loading="lazy">
+        <div class="caption">
+          <b>Rue de l'Artisanat, 7900 Leuze-en-Hainaut</b>
+          <span>Site sécurisé, accès facile depuis Tournai, Ath et Péruwelz</span>
+        </div>
+      </div>
+      <ul class="info-list">
+        <li>
+          <div class="iicon"><svg width="18" height="18" viewBox="0 0 448 512" fill="currentColor"><path d="M152 24c0-13.3-10.7-24-24-24S104 10.7 104 24V64H64C28.7 64 0 92.7 0 128v16 48V448c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V192 144 128c0-35.3-28.7-64-64-64H344V24c0-13.3-10.7-24-24-24s-24 10.7-24 24V64H152V24zM48 192H400V448c0 8.8-7.2 16-16 16H64c-8.8 0-16-7.2-16-16V192z"/></svg></div>
+          <div><b>Ouvert mardi, jeudi et vendredi</b><span>Créneaux de visite sur rendez-vous uniquement</span></div>
+        </li>
+        <li>
+          <div class="iicon"><svg width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"/></svg></div>
+          <div><b>069 82 52 20</b><span>On répond aussi directement par téléphone</span></div>
+        </li>
+        <li>
+          <div class="iicon"><svg width="18" height="18" viewBox="0 0 512 512" fill="currentColor"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7z"/></svg></div>
+          <div><b>info@leuze-stockage.be</b><span>Réponse sous 24h ouvrées</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="reveal">
+      <div class="form-card">
+        <div class="eyebrow">2 minutes chrono</div>
+        <h2>Réservez votre créneau</h2>
+        <p style="margin-top:10px;">Remplissez le formulaire, on revient vers vous pour confirmer le jour et l'heure qui vous arrangent.</p>
+
+        <form id="bookingForm" novalidate>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="nom">Nom complet *</label>
+              <input type="text" id="nom" name="nom" required autocomplete="name">
+            </div>
+            <div class="field">
+              <label for="email">Adresse e-mail *</label>
+              <input type="email" id="email" name="email" required autocomplete="email">
+            </div>
+            <div class="field">
+              <label for="telephone">Téléphone *</label>
+              <input type="tel" id="telephone" name="telephone" required autocomplete="tel" placeholder="04__ __ __ __">
+            </div>
+            <div class="field">
+              <label for="date">Date souhaitée *</label>
+              <input type="date" id="date" name="date" required>
+              <span class="hint">Sur rendez-vous les mardis, jeudis et vendredis</span>
+            </div>
+            <div class="field">
+              <label for="duree">Durée de location souhaitée</label>
+              <select id="duree" name="duree">
+                <option value="3" selected>3 mois</option>
+                <option value="6">6 mois</option>
+                <option value="9">9 mois</option>
+                <option value="12">12 mois</option>
+                <option value="18">18 mois</option>
+                <option value="24">24 mois</option>
+                <option value="36">36 mois</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="message">Message (facultatif)</label>
+              <textarea id="message" name="message" placeholder="Précisez vos besoins : type d'objets à stocker, questions particulières..."></textarea>
+            </div>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-primary">Envoyer ma demande</button>
+            <span class="form-note">Aucun engagement — on confirme le rendez-vous avec vous par téléphone ou e-mail.</span>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <svg width="20" height="20" viewBox="0 0 512 512" fill="currentColor"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM369 209L241 337c-9.4 9.4-24.6 9.4-33.9 0l-64-64c-9.4-9.4-9.4-24.6 0-33.9s24.6-9.4 33.9 0l47 47L335 175c9.4-9.4 24.6-9.4 33.9 0s9.4 24.6 0 33.9z"/></svg>
+            Votre messagerie va s'ouvrir avec la demande prête à être envoyée — il ne reste qu'à cliquer sur "Envoyer".
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <a class="logo" href="index.html" style="margin-bottom:16px;display:inline-flex;"><img src="assets/img/Location-stockage-Leuze-en-Hainaut-Ath-Tournai-Mons_lwsoptimized.webp" alt="Leuze Stockage" style="height:40px;width:auto;object-fit:contain;"></a>
+        <p>Le stockage local, simple et sécurisé — à Leuze-en-Hainaut, au service de Tournai, Ath et Péruwelz.</p>
+        <div class="socials">
+          <a class="social-btn" href="#" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 512 512" fill="currentColor"><path d="M504 256C504 119 393 8 256 8S8 119 8 256c0 123.78 90.69 226.38 209.25 245V327.69h-63V256h63v-54.64c0-62.15 37-96.48 93.67-96.48 27.14 0 55.52 4.84 55.52 4.84v61h-31.28c-30.8 0-40.41 19.12-40.41 38.73V256h68.78l-11 71.69h-57.78V501C413.31 482.38 504 379.78 504 256z"/></svg></a>
+          <a class="social-btn" href="#" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 448 512" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h4>Contact</h4>
+        <ul class="footer-list">
+          <li><svg width="15" height="15" viewBox="0 0 384 512" fill="currentColor"><path d="M172.268 501.67C26.97 291.031 0 269.413 0 192 0 85.961 85.961 0 192 0s192 85.961 192 192c0 77.413-26.97 99.031-172.268 309.67-9.535 13.774-29.93 13.773-39.464 0zM192 272c44.183 0 80-35.817 80-80s-35.817-80-80-80-80 35.817-80 80 35.817 80 80 80z"/></svg> Rue de l'Artisanat, 7900 Leuze-en-Hainaut</li>
+          <li><a href="tel:+3269825220"><svg width="15" height="15" viewBox="0 0 512 512" fill="currentColor"><path d="M497.39 361.8l-112-48a24 24 0 0 0-28 6.9l-49.6 60.6A370.66 370.66 0 0 1 130.6 204.11l60.6-49.6a23.94 23.94 0 0 0 6.9-28l-48-112A24.16 24.16 0 0 0 122.6.61l-104 24A24 24 0 0 0 0 48c0 256.5 207.9 464 464 464a24 24 0 0 0 23.4-18.6l24-104a24.29 24.29 0 0 0-14.01-27.6z"/></svg> 069 82 52 20</a></li>
+          <li><a href="mailto:info@leuze-stockage.be"><svg width="15" height="15" viewBox="0 0 512 512" fill="currentColor"><path d="M502.3 190.8c3.9-3.1 9.7-.2 9.7 4.7V400c0 26.5-21.5 48-48 48H48c-26.5 0-48-21.5-48-48V195.6c0-5 5.7-7.8 9.7-4.7 22.4 17.4 52.1 39.5 154.1 113.6 21.1 15.4 56.7 47.8 92.2 47.6 35.7.3 72-32.8 92.3-47.6 102-74.1 131.6-96.3 154-113.7z"/></svg> info@leuze-stockage.be</a></li>
+        </ul>
+      </div>
+      <div class="col-map">
+        <h4>Nous trouver</h4>
+        <div class="map-embed">
+          <iframe loading="lazy" title="Localisation approximative de Leuze-en-Hainaut" src="https://www.openstreetmap.org/export/embed.html?bbox=3.58%2C50.59%2C3.65%2C50.64&layer=mapnik&marker=50.616%2C3.616"></iframe>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Leuze Stockage — concept modernisé, projet personnel de démonstration.</span>
+      <span>Site original : leuze-stockage.be</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-bar">
+  <a class="btn btn-dark" href="tel:+3269825220">Appeler</a>
+  <a class="btn btn-primary" href="#form">Réserver</a>
+</div>
+
+<script>
+  try {
+    const nav = document.getElementById('siteNav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 10);
+    });
+  } catch (e) { console.error(e); }
+
+  try {
+    const burger = document.getElementById('burgerBtn');
+    burger.addEventListener('click', () => {
+      const links = document.querySelector('.nav-links');
+      links.style.display = links.style.display === 'flex' ? 'none' : 'flex';
+    });
+  } catch (e) { console.error(e); }
+
+  try {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, { threshold: .15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } catch (e) { console.error(e); }
+
+  try {
+    const bar = document.getElementById('scrollProgress');
+    window.addEventListener('scroll', () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
+    });
+  } catch (e) { console.error(e); }
+
+  try {
+    const form = document.getElementById('bookingForm');
+    const successBox = document.getElementById('formSuccess');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const lines = [
+        'Nom : ' + data.get('nom'),
+        'Email : ' + data.get('email'),
+        'Téléphone : ' + data.get('telephone'),
+        'Date souhaitée : ' + data.get('date'),
+        'Durée souhaitée : ' + data.get('duree') + ' mois',
+        'Message : ' + (data.get('message') || '—')
+      ];
+      const subject = encodeURIComponent('Demande de rendez-vous - ' + data.get('nom'));
+      const body = encodeURIComponent(lines.join('\n'));
+      window.location.href = 'mailto:info@leuze-stockage.be?subject=' + subject + '&body=' + body;
+      successBox.classList.add('show');
+    });
+  } catch (e) { console.error(e); }
+</script>
+
+</body>
+</html>
